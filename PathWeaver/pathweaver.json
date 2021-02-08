@@ -5,5 +5,5 @@
   "maxAcceleration": 0.12,
   "wheelBase": 0.1,
   "gameName": "MondrianMadness",
-  "outputDir": ""
+  "outputDir": "../src/main/deploy"
 }
