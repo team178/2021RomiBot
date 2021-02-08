@@ -113,18 +113,18 @@ public class RobotContainer {
         new Pose2d(0.0, 0, new Rotation2d(Math.PI)),
         config);
 
-      //Put in own method later, so we can use shuffuleboard to give file name or however we do that 
-      String trajectoryJSON = "paths/test.wpilib.json"; //YourPath should be replaced with the name of your path.
-      Trajectory trajectory = new Trajectory();
-      try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-      }
+      //Broken gotta play around a bit more
+      //String trajectoryJSON = "PathWeaver/output/test.wpilib.json"; //YourPath should be replaced with the name of your path.
+      //Trajectory trajectory = new Trajectory();
+      //try {
+        //Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        //trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      //} catch (IOException ex) {
+        //DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+      //}
 
     RamseteCommand ramseteCommand = new RamseteCommand(
-        trajectory,
+        exampleTrajectory,
         m_drivetrain::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter, DriveConstants.kaVoltSecondsSquaredPerMeter),
