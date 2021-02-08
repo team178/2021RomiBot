@@ -113,8 +113,7 @@ public class RobotContainer {
         new Pose2d(0.0, 0, new Rotation2d(Math.PI)),
         config);
 
-      //Broken gotta play around a bit more
-      String trajectoryJSON = "output/1test.wpilib.json";
+      String trajectoryJSON = "output/1test.wpilib.json";//replace 1test with name of path
       Trajectory trajectory = new Trajectory();
       try {
         Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
