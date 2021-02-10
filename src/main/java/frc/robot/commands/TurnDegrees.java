@@ -32,13 +32,14 @@ public class TurnDegrees extends CommandBase {
   public void initialize() {
     // Set motors to stop, read encoder values for starting point
     m_drive.arcadeDrive(0, 0);
-    m_drive.resetEncoders();
+    m_drive.resetGyro();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_drive.arcadeDrive(0, m_speed);
+    System.out.println(m_drive.getHeading());
   }
 
   // Called once the command ends or is interrupted.
@@ -55,14 +56,11 @@ public class TurnDegrees extends CommandBase {
        has a wheel placement diameter (149 mm) - width of the wheel (8 mm) = 141 mm
        or 5.551 inches. We then take into consideration the width of the tires.
     */
-    double inchPerDegree = Math.PI * 5.551 / 360;
     // Compare distance travelled from start to distance based on degree turn
-    return getAverageTurningDistance() >= (inchPerDegree * m_degrees);
+    return getHeading() >= m_degrees;
   }
 
-  private double getAverageTurningDistance() {
-    double leftDistance = Math.abs(m_drive.getLeftDistanceMeter());
-    double rightDistance = Math.abs(m_drive.getRightDistanceMeter());
-    return (leftDistance + rightDistance) / 2.0;
+  private double getHeading() {
+    return Math.abs(m_drive.getHeading());
   }
 }

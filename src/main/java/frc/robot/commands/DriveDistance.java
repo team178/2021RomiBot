@@ -50,6 +50,6 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     // Compare distance travelled from start to desired distance
-    return Math.abs(m_drive.getAverageDistanceMeter()) >= m_distance;
+    return Math.abs(m_drive.getAverageDistanceMeter()*39.3701) >= m_distance;
   }
 }
