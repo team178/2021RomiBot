@@ -10,19 +10,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class TurnDegrees extends CommandBase {
   private final Drivetrain m_drive;
   private final double m_degrees;
-  private final double m_speed;
+
+  private double angleDifferenceToTarget; 
+  private double slowDownVariable; 
+  private double finalSpeed;
+  
+  private double m_speed = .6; 
 
   /**
    * Creates a new TurnDegrees. This command will turn your robot for a desired rotation (in
    * degrees) and rotational speed.
    *
-   * @param speed The speed which the robot will drive. Negative is in reverse.
    * @param degrees Degrees to turn. Leverages encoders to compare distance.
    * @param drive The drive subsystem on which this command will run
    */
-  public TurnDegrees(double speed, double degrees, Drivetrain drive) {
+  public TurnDegrees(double degrees, Drivetrain drive) {
     m_degrees = degrees;
-    m_speed = speed;
     m_drive = drive;
     addRequirements(drive);
   }
@@ -33,13 +36,23 @@ public class TurnDegrees extends CommandBase {
     // Set motors to stop, read encoder values for starting point
     m_drive.arcadeDrive(0, 0);
     m_drive.resetGyro();
+
+    angleDifferenceToTarget = m_degrees - getHeading(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.arcadeDrive(0, m_speed);
-    System.out.println(m_drive.getHeading());
+    slowDownVariable = (m_degrees - getHeading()) / angleDifferenceToTarget;
+    slowDownVariable = ((slowDownVariable < .1) ? .1 : m_speed);
+
+    finalSpeed = m_speed * slowDownVariable;
+    finalSpeed = ((finalSpeed < .25) ? .25 : finalSpeed);
+    finalSpeed = ((m_degrees > 0) ? finalSpeed*-1 : finalSpeed);
+
+    System.out.println(getHeading());
+
+    m_drive.arcadeDrive(0, finalSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,10 +70,15 @@ public class TurnDegrees extends CommandBase {
        or 5.551 inches. We then take into consideration the width of the tires.
     */
     // Compare distance travelled from start to distance based on degree turn
-    return getHeading() >= m_degrees;
+    if (m_degrees > 0){
+      return (getHeading() >= m_degrees + 1.5) || (getHeading() >= m_degrees - 1.5);
+    }
+    else{
+      return (getHeading() <= m_degrees + 1.5) || (getHeading() <= m_degrees - 1.5);
+    }
   }
 
   private double getHeading() {
-    return Math.abs(m_drive.getHeading());
+    return m_drive.getHeading();
   }
 }
