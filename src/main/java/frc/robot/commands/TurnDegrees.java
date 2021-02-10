@@ -9,13 +9,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnDegrees extends CommandBase {
   private final Drivetrain m_drive;
-  private final double m_degrees;
 
-  private double angleDifferenceToTarget; 
+  private static double endingAngle; 
+
   private double slowDownVariable; 
+  private double m_degrees;
+  private double currentDegrees;
   private double finalSpeed;
-  
-  private double m_speed = .6; 
+
+  private double m_speed = .35; 
+
 
   /**
    * Creates a new TurnDegrees. This command will turn your robot for a desired rotation (in
@@ -37,20 +40,28 @@ public class TurnDegrees extends CommandBase {
     m_drive.arcadeDrive(0, 0);
     m_drive.resetGyro();
 
-    angleDifferenceToTarget = m_degrees - getHeading(); 
+    //m_degrees -= ((endingAngle == 0) ? 0 : (endingAngle - m_degrees));
+    //System.out.println("Degrees " + m_degrees);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    slowDownVariable = (m_degrees - getHeading()) / angleDifferenceToTarget;
-    slowDownVariable = ((slowDownVariable < .1) ? .1 : m_speed);
+    currentDegrees = getHeading();
+
+    slowDownVariable = (m_degrees - currentDegrees) / m_degrees;
+    
+    slowDownVariable = ((slowDownVariable < .1) ? .1 : slowDownVariable);
 
     finalSpeed = m_speed * slowDownVariable;
+    
     finalSpeed = ((finalSpeed < .25) ? .25 : finalSpeed);
+    
     finalSpeed = ((m_degrees > 0) ? finalSpeed*-1 : finalSpeed);
+    
 
-    System.out.println(getHeading());
+    
 
     m_drive.arcadeDrive(0, finalSpeed);
   }
@@ -59,6 +70,9 @@ public class TurnDegrees extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.arcadeDrive(0, 0);
+    endingAngle = getHeading();
+
+    System.out.println("Ending Angle (at end): " + endingAngle);
   }
 
   // Returns true when the command should end.
@@ -71,10 +85,10 @@ public class TurnDegrees extends CommandBase {
     */
     // Compare distance travelled from start to distance based on degree turn
     if (m_degrees > 0){
-      return (getHeading() >= m_degrees + 1.5) || (getHeading() >= m_degrees - 1.5);
+      return (getHeading() >= m_degrees);
     }
     else{
-      return (getHeading() <= m_degrees + 1.5) || (getHeading() <= m_degrees - 1.5);
+      return (getHeading() <= m_degrees);
     }
   }
 
