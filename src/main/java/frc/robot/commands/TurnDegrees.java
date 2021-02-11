@@ -51,13 +51,10 @@ public class TurnDegrees extends CommandBase {
     currentDegrees = getHeading();
 
     slowDownVariable = (m_degrees - currentDegrees) / m_degrees;
-    
     slowDownVariable = ((slowDownVariable < .1) ? .1 : slowDownVariable);
 
     finalSpeed = m_speed * slowDownVariable;
-    
     finalSpeed = ((finalSpeed < .25) ? .25 : finalSpeed);
-    
     finalSpeed = ((m_degrees > 0) ? finalSpeed*-1 : finalSpeed);
     
 

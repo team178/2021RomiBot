@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 /**
@@ -21,12 +23,18 @@ public final class Constants {
     public static final double ksVolts = 0.929;
     public static final double kvVoltSecondsPerMeter = 6.33;
     public static final double kaVoltSecondsSquaredPerMeter = 0.0389;
+    
 
     public static final double kPDriveVel = 0.085;
 
     public static final double kTrackwidthMeters = 0.142072613;
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
+
+    public static final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(ksVolts, kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter);
+    public static final PIDController m_leftPIDController = new PIDController(DriveConstants.kPDriveVel, 0, 0);
+    public static final PIDController m_rightPIDController = new PIDController(DriveConstants.kPDriveVel, 0, 0);
+
   }
 
   public static final class AutoConstants {

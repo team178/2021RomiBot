@@ -57,6 +57,8 @@ public class RobotContainer {
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  private Trajectory trajectory;
+
   // NOTE: The I/O pin functionality of the 5 exposed I/O pins depends on the hardware "overlay"
   // that is specified when launching the wpilib-ws server on the Romi raspberry pi.
   // By default, the following are available (listed in order from inside of the board to outside):
@@ -86,9 +88,7 @@ public class RobotContainer {
   private Command generateRamseteCommand() {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(DriveConstants.ksVolts, 
-                                       DriveConstants.kvVoltSecondsPerMeter, 
-                                       DriveConstants.kaVoltSecondsSquaredPerMeter),
+            DriveConstants.m_feedforward,
             DriveConstants.kDriveKinematics,
             10);
 
@@ -113,32 +113,32 @@ public class RobotContainer {
         new Pose2d(0.0, 0, new Rotation2d(Math.PI)),
         config);
 
-      String trajectoryJSON = "output/test.wpilib.json";//replace 1test with name of path
-      Trajectory trajectory = new Trajectory();
-      try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-      }
+    String trajectoryJSON = "output/test.wpilib.json";//replace test with name of path
+    trajectory = new Trajectory();
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,
         m_drivetrain::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter, DriveConstants.kaVoltSecondsSquaredPerMeter),
+        DriveConstants.m_feedforward,
         DriveConstants.kDriveKinematics,
         m_drivetrain::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
+        DriveConstants.m_leftPIDController,
+        DriveConstants.m_rightPIDController,
         m_drivetrain::tankDriveVolts,
         m_drivetrain);
 
-    m_drivetrain.resetOdometry(exampleTrajectory.getInitialPose());
+    m_drivetrain.resetOdometry(trajectory.getInitialPose());
 
     // Set up a sequence of commands
     // First, we want to reset the drivetrain odometry
-    return new InstantCommand(() -> m_drivetrain.resetOdometry(exampleTrajectory.getInitialPose()), m_drivetrain)
+    return new InstantCommand(() -> m_drivetrain.resetOdometry(trajectory.getInitialPose()), m_drivetrain)
         // next, we run the actual ramsete command
         .andThen(ramseteCommand)
 
