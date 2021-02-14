@@ -7,19 +7,18 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.ArcadeDrive;
@@ -41,7 +40,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -168,28 +166,36 @@ public class RobotContainer {
     
     //Console Controller Mapping 
     m_controller.a
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Run a PathWeaver Path (probs only one choice)
+      .whenPressed(new PrintCommand("Button A on Controller Pressed"));//Replace PrintCommand with Command for: Run a PathWeaver Path (probs only one choice)
     m_controller.b
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Auto Straightener
+      .whenPressed(new PrintCommand("Button B on Controller Pressed"));//Replace PrintCommand with Command for: Auto Straightener
     m_controller.x
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Auto Angle Correction Button
+      .whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
     m_controller.y
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Preprogrammed Turning 
-    m_controller.leftBumper
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: 
-    m_controller.rightBumper
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: 
-    m_controller.back
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: 
-    m_controller.start
-      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for:  
+      .whenPressed(new PrintCommand("Button Y on Controller Pressed"));//Replace PrintCommand with Command for: Something :D
+    
+    //For Preprogammed turning
+    m_controller.topDPAD
+      .whenPressed(new PrintCommand("DPAD top on Controller Pressed"));//Replace PrintCommand with Command for: -45 degree turn
+    m_controller.bottomDPAD
+      .whenPressed(new PrintCommand("DPAD bottom on Controller Pressed"));//Replace PrintCommand with Command for: 45 degree turn
+    m_controller.leftDPAD
+      .whenPressed(new PrintCommand("DPAD left on Controller Pressed"));//Replace PrintCommand with Command for: -90 degree turn
+    m_controller.rightDPAD
+      .whenPressed(new PrintCommand("DPAD right on Controller Pressed"));//Replace PrintCommand with Command for: 90 degree turn
 
     // Setup SmartDashboard options
     m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
+
+    Shuffleboard.getTab("SmartDashboard")
+    .add("Max Speed", 1)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+    .getEntry();
     
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("Autnomous Routine", m_chooser);
   }
 
   /**
@@ -199,8 +205,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-    
-
   }
 
   /**

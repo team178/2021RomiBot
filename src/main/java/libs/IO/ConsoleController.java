@@ -16,15 +16,30 @@ import edu.wpi.first.wpilibj2.command.button.*;
 public class ConsoleController {
 
     public static Joystick controller;
+    public static double sensitivity = 1;
+    public static double turnLimit = 1;
+    public static double fowardLimit = 1; 
+    
     public Button a;
     public Button b;
     public Button x;
     public Button y;
+    
     public Button leftBumper;
     public Button rightBumper;
+    
     public Button back;
     public Button start;
-    public Direction direction; //DPAD direction 
+    
+    public POVButton rightDPAD;  
+    public POVButton leftDPAD;
+    public POVButton topDPAD;
+    public POVButton bottomDPAD; 
+
+    public POVButton rightBottomDPAD; 
+    public POVButton leftBottomDPAD; 
+    public POVButton rightTopDPAD;
+    public POVButton leftTopDPAD;     
 
     public ConsoleController(int port) {
         controller = new Joystick(port);
@@ -32,42 +47,22 @@ public class ConsoleController {
         b = new JoystickButton(controller, 2);
         x = new JoystickButton(controller, 3);
         y = new JoystickButton(controller, 4);
+        
         leftBumper = new JoystickButton(controller, 5);
         rightBumper = new JoystickButton(controller, 6);
+        
         back = new JoystickButton(controller, 7);
         start = new JoystickButton(controller, 8);
-        direction = this.getDirection(); 
-    }
+        
+        rightDPAD = new POVButton(controller, 90);
+        leftDPAD = new POVButton(controller, 270);
+        topDPAD = new POVButton(controller, 0);
+        bottomDPAD = new POVButton(controller, 180);
 
-    public static enum Direction {
-        NONE(-1), 
-        TOP(0), 
-        TOP_RIGHT(45), 
-        RIGHT(90), 
-        BOTTOM_RIGHT(135), 
-        BOTTOM(180), 
-        BOTTOM_LEFT(225), 
-        LEFT(270), 
-        TOP_LEFT(315);
-
-        int direction;
-        private Direction(int direction) {
-            this.direction = direction;
-        }
-    }
-
-    public Direction getDirection() {
-        switch (controller.getPOV()) {
-            case 0 : return Direction.TOP;
-            case 45 : return Direction.TOP_RIGHT;
-            case 90 : return Direction.RIGHT;
-            case 135 : return Direction.BOTTOM_RIGHT;
-            case 180 : return Direction.BOTTOM;
-            case 225 : return Direction.BOTTOM_LEFT;
-            case 270 : return Direction.LEFT;
-            case 315 : return Direction.TOP_LEFT;
-            default : return Direction.NONE;
-        }
+        rightBottomDPAD = new POVButton(controller, 135);
+        leftBottomDPAD = new POVButton(controller, 225);
+        rightTopDPAD = new POVButton(controller, 45);
+        leftTopDPAD = new POVButton(controller, 315);
     }
 
     public double getLeftStickX() {
