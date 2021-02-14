@@ -88,7 +88,7 @@ public class RobotContainer {
    * 
    * @return A SequentialCommand that sets up and executes a trajectory following Ramsete command
    */
-  private Command generateRamseteCommand() {
+  private Command generateRamseteCommand(String pathName) {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             DriveConstants.m_feedforward,
@@ -116,7 +116,7 @@ public class RobotContainer {
         new Pose2d(0.0, 0, new Rotation2d(Math.PI)),
         config);
 
-    String trajectoryJSON = "output/test.wpilib.json";//replace test with name of path
+    String trajectoryJSON = "output/" + pathName + ".wpilib.json";//replace test with name of path
     trajectory = new Trajectory();
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -168,24 +168,24 @@ public class RobotContainer {
     
     //Console Controller Mapping 
     m_controller.a
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Run a PathWeaver Path (probs only one choice)
     m_controller.b
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Auto Straightener
     m_controller.x
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Auto Angle Correction Button
     m_controller.y
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: Preprogrammed Turning 
     m_controller.leftBumper
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: 
     m_controller.rightBumper
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: 
     m_controller.back
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for: 
     m_controller.start
-      .whenPressed(new AutonomousDistance(m_drivetrain));
+      .whenPressed(new AutonomousDistance(m_drivetrain));//Replace AutnomousDistance with Command for:  
 
     // Setup SmartDashboard options
-    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand());
+    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     
