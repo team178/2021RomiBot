@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -39,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,7 +54,7 @@ public class RobotContainer {
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channnel 0
-  private final Joystick m_controller = new Joystick(0);
+  private final XboxController m_controller = new XboxController(0);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -162,6 +164,37 @@ public class RobotContainer {
     onboardButtonA
         .whenActive(new PrintCommand("Button A Pressed"))
         .whenInactive(new PrintCommand("Button A Released"));
+    
+    //Console Controller Mapping 
+    Button k_aButton = new Button(m_controller::getAButtonPressed);//b is the bottom one 
+    k_aButton
+      .whenActive(new AutonomousDistance(m_drivetrain))
+      .whenInactive(new AutonomousDistance(m_drivetrain));
+    
+    Button k_yButton = new Button(m_controller::getYButtonPressed);//y is the top one
+    k_yButton
+      .whenActive(new AutonomousDistance(m_drivetrain))
+      .whenInactive(new AutonomousDistance(m_drivetrain));
+
+    Button k_xButton = new Button(m_controller::getXButtonPressed);//x is the left one
+    k_xButton
+      .whenActive(new AutonomousDistance(m_drivetrain))
+      .whenInactive(new AutonomousDistance(m_drivetrain));
+
+    Button k_bButton = new Button(m_controller::getBButton);//b is the right one
+    k_bButton
+      .whenActive(new AutonomousDistance(m_drivetrain))
+      .whenInactive(new AutonomousDistance(m_drivetrain));
+    
+    Button k_bumperLeftButton = new JoystickButton(m_controller, 5);
+    k_bumperLeftButton
+      .whenPressed(new AutonomousDistance(m_drivetrain))
+      .whenReleased(new AutonomousDistance(m_drivetrain));
+    
+    Button k_bumperRightButton = new JoystickButton(m_controller, 6);
+    k_bumperRightButton
+      .whenPressed(new AutonomousDistance(m_drivetrain))
+      .whenReleased(new AutonomousDistance(m_drivetrain));
 
     // Setup SmartDashboard options
     m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand());
