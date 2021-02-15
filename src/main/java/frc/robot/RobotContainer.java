@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
 import frc.robot.subsystems.Drivetrain;
@@ -168,7 +169,7 @@ public class RobotContainer {
     m_controller.a
       .whenPressed(generateRamseteCommand("startTeleopPath"));//Run startTeleopPath
     m_controller.b
-      .whenPressed(new PrintCommand("Button B on Controller Pressed"));//Replace PrintCommand with Command for: Auto Straightener
+      .whenPressed(new AutoStraightener(m_drivetrain));//Run AutoStraightener
     m_controller.x
       .whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
     m_controller.y
