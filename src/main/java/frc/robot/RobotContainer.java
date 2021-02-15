@@ -7,18 +7,18 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.ArcadeDrive;
@@ -27,6 +27,7 @@ import frc.robot.commands.AutonomousTime;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
+import libs.IO.ConsoleController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -52,7 +53,7 @@ public class RobotContainer {
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channnel 0
-  private final Joystick m_controller = new Joystick(0);
+  private final ConsoleController m_controller = new ConsoleController(0);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -85,7 +86,7 @@ public class RobotContainer {
    * 
    * @return A SequentialCommand that sets up and executes a trajectory following Ramsete command
    */
-  private Command generateRamseteCommand() {
+  private Command generateRamseteCommand(String pathName) {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             DriveConstants.m_feedforward,
@@ -113,7 +114,7 @@ public class RobotContainer {
         new Pose2d(0.0, 0, new Rotation2d(Math.PI)),
         config);
 
-    String trajectoryJSON = "output/test.wpilib.json";//replace test with name of path
+    String trajectoryJSON = "output/" + pathName + ".wpilib.json";//replace test with name of path
     trajectory = new Trajectory();
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -162,13 +163,45 @@ public class RobotContainer {
     onboardButtonA
         .whenActive(new PrintCommand("Button A Pressed"))
         .whenInactive(new PrintCommand("Button A Released"));
+    
+    //Console Controller Mapping 
+    m_controller.a
+      .whenPressed(generateRamseteCommand("startTeleopPath"));//Run startTeleopPath
+    m_controller.b
+      .whenPressed(new PrintCommand("Button B on Controller Pressed"));//Replace PrintCommand with Command for: Auto Straightener
+    m_controller.x
+      .whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
+    m_controller.y
+      .whenPressed(generateRamseteCommand("endTeleopPath"));//Run endTeleopPath
+    
+    //Extra mapping slots for running PathWeaver Path if needed
+    m_controller.start
+      .whenPressed(new PrintCommand("Hi"));
+    m_controller.back
+      .whenPressed(new PrintCommand("Hi"));
+    
+    //For Preprogammed turning
+    m_controller.topDPAD
+      .whenPressed(new PrintCommand("DPAD top on Controller Pressed"));//Replace PrintCommand with Command for: -45 degree turn
+    m_controller.bottomDPAD
+      .whenPressed(new PrintCommand("DPAD bottom on Controller Pressed"));//Replace PrintCommand with Command for: 45 degree turn
+    m_controller.leftDPAD
+      .whenPressed(new PrintCommand("DPAD left on Controller Pressed"));//Replace PrintCommand with Command for: -90 degree turn
+    m_controller.rightDPAD
+      .whenPressed(new PrintCommand("DPAD right on Controller Pressed"));//Replace PrintCommand with Command for: 90 degree turn
 
     // Setup SmartDashboard options
-    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand());
+    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
+
+    Shuffleboard.getTab("SmartDashboard")
+    .add("Max Speed", 1)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+    .getEntry();
     
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("Autnomous Routine", m_chooser);
   }
 
   /**
@@ -178,8 +211,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-    
-
   }
 
   /**
@@ -189,6 +220,6 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2));
+        m_drivetrain, () -> -m_controller.getLeftStickX(), () -> m_controller.getRightStickX());
   }
 }
