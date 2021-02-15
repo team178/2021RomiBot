@@ -166,13 +166,19 @@ public class RobotContainer {
     
     //Console Controller Mapping 
     m_controller.a
-      .whenPressed(new PrintCommand("Button A on Controller Pressed"));//Replace PrintCommand with Command for: Run a PathWeaver Path (probs only one choice)
+      .whenPressed(new PrintCommand("Button A on Controller Pressed"));//Replace PrintCommand with Command for: Run a PathWeaver Path (startTeleopPath)
     m_controller.b
       .whenPressed(new PrintCommand("Button B on Controller Pressed"));//Replace PrintCommand with Command for: Auto Straightener
     m_controller.x
       .whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
     m_controller.y
-      .whenPressed(new PrintCommand("Button Y on Controller Pressed"));//Replace PrintCommand with Command for: Something :D
+      .whenPressed(new PrintCommand("Button Y on Controller Pressed"));//Replace PrintCommand with Command for: Run a PathWeaver Path (endTeleopPath)
+    
+    //Extra mapping slots for running PathWeaver Path if needed
+    m_controller.start
+      .whenPressed(new PrintCommand("Hi"));
+    m_controller.back
+      .whenPressed(new PrintCommand("Hi"));
     
     //For Preprogammed turning
     m_controller.topDPAD
