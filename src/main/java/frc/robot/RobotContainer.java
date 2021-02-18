@@ -25,6 +25,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.TurnDegrees;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
@@ -183,13 +184,13 @@ public class RobotContainer {
     
     //For Preprogammed turning
     m_controller.topDPAD
-      .whenPressed(new PrintCommand("DPAD top on Controller Pressed"));//Replace PrintCommand with Command for: -45 degree turn
+      .whenPressed(new TurnDegrees(-45, m_drivetrain));//Replace PrintCommand with Command for: -45 degree turn
     m_controller.bottomDPAD
-      .whenPressed(new PrintCommand("DPAD bottom on Controller Pressed"));//Replace PrintCommand with Command for: 45 degree turn
+      .whenPressed(new TurnDegrees(45, m_drivetrain));//Replace PrintCommand with Command for: 45 degree turn
     m_controller.leftDPAD
-      .whenPressed(new PrintCommand("DPAD left on Controller Pressed"));//Replace PrintCommand with Command for: -90 degree turn
+      .whenPressed(new TurnDegrees(-90, m_drivetrain));//Replace PrintCommand with Command for: -90 degree turn
     m_controller.rightDPAD
-      .whenPressed(new PrintCommand("DPAD right on Controller Pressed"));//Replace PrintCommand with Command for: 90 degree turn
+      .whenPressed(new TurnDegrees(90, m_drivetrain));//Replace PrintCommand with Command for: 90 degree turn
 
     // Setup SmartDashboard options
     m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
