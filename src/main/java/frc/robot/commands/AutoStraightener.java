@@ -15,11 +15,25 @@ public class AutoStraightener extends SequentialCommandGroup {
    *
    * @param drivetrain The drive subsystem on which this command will run
    */
-  public AutoStraightener(Drivetrain drivetrain) {
-    addCommands(
-        //Type algorithm here and replace the angle currently in TurnDegrees with 
-        //whatever varible holds the caculated angle to travel to 
 
-        new TurnDegrees(-0.5, drivetrain));
+  private final double heading;
+  private final double straightDegrees;
+
+  public AutoStraightener(Drivetrain drivetrain) {
+
+    // Gets robot heading
+    heading = drivetrain.getHeading();
+
+    /* 
+      Rounds the heading divided by 90, and multiplys that rounded number by 90 to get which
+      heading is closest, then subtracting it from the heading to get the ammount the robot 
+      needs to turn
+    */
+
+    straightDegrees = heading - (90 * Math.round(heading/90));
+
+    addCommands(
+
+        new TurnDegrees(straightDegrees, drivetrain));
   }
 }
