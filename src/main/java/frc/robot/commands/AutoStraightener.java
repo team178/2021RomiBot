@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoStraightener extends SequentialCommandGroup {
@@ -33,7 +34,7 @@ public class AutoStraightener extends SequentialCommandGroup {
     straightDegrees = heading - (90 * Math.round(heading/90));
 
     addCommands(
-
+        new PrintCommand(heading + " " + straightDegrees),
         new TurnDegrees(straightDegrees, drivetrain));
   }
 }
