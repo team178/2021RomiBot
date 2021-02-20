@@ -31,7 +31,7 @@ public class AutoStraightener extends SequentialCommandGroup {
       needs to turn
     */
 
-    straightDegrees = heading - (90 * Math.round(heading/90));
+    straightDegrees = heading - (90 * Math.round(heading/90));//consider if heading is 45, or consider buttons for all four compass directions. Also consider putting auto striaghtner into a new class that extends the CommandBase instead of SequentialCommmadGroup
 
     addCommands(
         new PrintCommand(heading + " " + straightDegrees),
