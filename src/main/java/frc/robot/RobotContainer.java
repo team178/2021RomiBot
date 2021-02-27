@@ -107,7 +107,7 @@ public class RobotContainer {
     // to deal with for the Romi), you can use the Units.inchesToMeters() method
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
+        new Pose2d(0, 0, new Rotation2d(0)), //Use for auto strightener? 
         List.of(
             new Translation2d(0.5, 0.25),
             new Translation2d(1.0, -0.25),
@@ -193,8 +193,8 @@ public class RobotContainer {
       .whenPressed(new TurnDegrees(90, m_drivetrain));//Replace PrintCommand with Command for: 90 degree turn
 
     // Setup SmartDashboard options
-    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
-    m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
+    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("test"));
+    m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")

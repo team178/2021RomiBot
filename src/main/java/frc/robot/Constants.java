@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final double ksVolts = 0.929;
+    public static final double ksVolts = 0.263;
     public static final double kvVoltSecondsPerMeter = 6.33;
     public static final double kaVoltSecondsSquaredPerMeter = 0.0389;
     

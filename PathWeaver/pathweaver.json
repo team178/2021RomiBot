@@ -1,9 +1,9 @@
 {
   "lengthUnit": "Meter",
   "exportUnit": "Same as Project",
-  "maxVelocity": 0.6,
-  "maxAcceleration": 0.6,
-  "wheelBase": 0.14,
+  "maxVelocity": 0.8,
+  "maxAcceleration": 0.8,
+  "wheelBase": 0.142072613,
   "gameName": "MondrianMadness",
   "outputDir": "../src/main/deploy"
 }
