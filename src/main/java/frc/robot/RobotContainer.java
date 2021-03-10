@@ -26,6 +26,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurnDegrees;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
@@ -194,7 +195,7 @@ public class RobotContainer {
       .whenPressed(new TurnDegrees(90, m_drivetrain));//Replace PrintCommand with Command for: 90 degree turn
 
     // Setup SmartDashboard options
-    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("test"));
+    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("Group2_Nishesh2"));
     m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
 
@@ -206,7 +207,7 @@ public class RobotContainer {
     
     SmartDashboard.putData("Autnomous Routine", m_chooser);
   }
-
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -222,7 +223,12 @@ public class RobotContainer {
    * @return the command to run in teleop
    */
   public Command getArcadeDriveCommand() {
-    return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickX() * .6);
+    return new TankDrive(
+        m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickY() * .6);
     }
+
+  public Command getTankDriveCommand(){
+    return new TankDrive(
+      m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickX() * .6);
+  }
 }
