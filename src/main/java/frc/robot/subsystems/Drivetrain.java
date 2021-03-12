@@ -71,6 +71,11 @@ public class Drivetrain extends SubsystemBase {
     m_diffDrive.feed();
   }
 
+  public void tankDrivePower(double leftPower, double rightPower) {
+    m_leftMotor.set(leftPower);
+    m_rightMotor.set(rightPower);
+  }
+
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();

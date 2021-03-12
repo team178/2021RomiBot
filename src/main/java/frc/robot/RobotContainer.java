@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -25,6 +26,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurnDegrees;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
@@ -107,7 +109,7 @@ public class RobotContainer {
     // to deal with for the Romi), you can use the Units.inchesToMeters() method
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
+        new Pose2d(0, 0, new Rotation2d(0)), //Use for auto strightener? 
         List.of(
             new Translation2d(0.5, 0.25),
             new Translation2d(1.0, -0.25),
@@ -193,8 +195,8 @@ public class RobotContainer {
       .whenPressed(new TurnDegrees(90, m_drivetrain));//Replace PrintCommand with Command for: 90 degree turn
 
     // Setup SmartDashboard options
-    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
-    m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
+    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("Group2_Nishesh2"));
+    m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")
@@ -205,7 +207,7 @@ public class RobotContainer {
     
     SmartDashboard.putData("Autnomous Routine", m_chooser);
   }
-
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -221,7 +223,12 @@ public class RobotContainer {
    * @return the command to run in teleop
    */
   public Command getArcadeDriveCommand() {
-    return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getLeftStickX(), () -> m_controller.getRightStickX());
+    return new TankDrive(
+        m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickY() * .6);
+    }
+
+  public Command getTankDriveCommand(){
+    return new TankDrive(
+      m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickX() * .6);
   }
 }
