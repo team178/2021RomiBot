@@ -172,7 +172,7 @@ public class RobotContainer {
     m_controller.a
       .whenPressed(generateRamseteCommand("startTeleopPath"));//Run startTeleopPath
     m_controller.b
-      .whenPressed(new AutoStraightener(m_drivetrain));//Run AutoStraightener
+      .whenPressed(new AutoStraightener(m_drivetrain));//Run Full Path
     m_controller.x
       .whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
     m_controller.y
@@ -180,9 +180,9 @@ public class RobotContainer {
     
     //Extra mapping slots for running PathWeaver Path if needed
     m_controller.start
-      .whenPressed(new PrintCommand("Hi"));
+      .whileHeld(new TankDrive(m_drivetrain, () -> -m_controller.getLeftTrigger() * .9, () -> m_controller.getRightTrigger() * 0));
     m_controller.back
-      .whenPressed(new PrintCommand("Hi"));
+      .whileHeld(new TankDrive(m_drivetrain, () -> -m_controller.getLeftTrigger() * 0, () -> m_controller.getRightTrigger() * .6));
     
     //For Preprogammed turning
     m_controller.topDPAD
@@ -193,6 +193,10 @@ public class RobotContainer {
       .whenPressed(new TurnDegrees(-90, m_drivetrain));//Replace PrintCommand with Command for: -90 degree turn
     m_controller.rightDPAD
       .whenPressed(new TurnDegrees(90, m_drivetrain));//Replace PrintCommand with Command for: 90 degree turn
+
+    //For Tank Drive
+    //m_controller.leftBumper
+      //.whileHeld(new TankDrive(m_drivetrain, m_controller.leftBumper, 0));
 
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("Group2_Nishesh2"));
@@ -223,7 +227,7 @@ public class RobotContainer {
    * @return the command to run in teleop
    */
   public Command getArcadeDriveCommand() {
-    return new TankDrive(
+    return new ArcadeDrive(
         m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickY() * .6);
     }
 
