@@ -228,11 +228,11 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getLeftStickY() * 0.95, () -> m_controller.getRightStickY() * 0.4);
+        m_drivetrain, () -> -m_controller.getLeftStickY() * 0.8, () -> m_controller.getRightStickY() * 0.45);
     }
 
   public Command getTankDriveCommand(){
     return new TankDrive(
-      m_drivetrain, () -> -m_controller.getLeftStickY() * 0.98, () -> m_controller.getRightStickX() * 0.3);
+      m_drivetrain, () -> -m_controller.getLeftStickY() * 0.8, () -> m_controller.getRightStickX() * 0.45);
   }
 }
