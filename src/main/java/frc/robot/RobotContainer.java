@@ -199,7 +199,7 @@ public class RobotContainer {
       //.whileHeld(new TankDrive(m_drivetrain, m_controller.leftBumper, 0));
 
     // Setup SmartDashboard options
-    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("Group2_Nishesh2"));
+    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("test"));
     m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
 
