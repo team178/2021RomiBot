@@ -23,11 +23,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutoDriveStraight;
 import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurnDegrees;
+import frc.robot.commands.ZeroHeading;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
@@ -170,13 +172,16 @@ public class RobotContainer {
     
     //Console Controller Mapping 
     m_controller.a
-      .whenPressed(generateRamseteCommand("startTeleopPath"));//Run startTeleopPath
+        .whileHeld(new AutoDriveStraight(m_drivetrain, 0));
+      //.whenPressed(generateRamseteCommand("startTeleopPath"));//Run startTeleopPath
     m_controller.b
       .whenPressed(new AutoStraightener(m_drivetrain));//Run Full Path
     m_controller.x
-      .whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
+        .whileHeld(new AutoDriveStraight(m_drivetrain, 180));
+      //.whenPressed(new PrintCommand("Button X on Controller Pressed"));//Replace PrintCommand with Command for: Auto Angle Correction Button
     m_controller.y
-      .whenPressed(generateRamseteCommand("endTeleopPath"));//Run endTeleopPath
+      //.whenPressed(generateRamseteCommand("endTeleopPath"));//Run endTeleopPath
+        .whenPressed(new ZeroHeading(m_drivetrain));
     
     //Extra mapping slots for running PathWeaver Path if needed
     m_controller.start
@@ -228,11 +233,17 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickY() * .6);
+        m_drivetrain, () -> m_controller.getLeftStickY(), () -> m_controller.getRightStickX());
     }
 
   public Command getTankDriveCommand(){
-    return new TankDrive(
-      m_drivetrain, () -> -m_controller.getLeftStickY() * .9, () -> m_controller.getRightStickX() * .6);
+    //if (Math.abs(m_controller.getLeftStickY()) > 0.1 || Math.abs(m_controller.getRightStickY()) > 0.1) {
+      //System.out.println("ye");
+      return new TankDrive(
+        m_drivetrain, () -> -m_controller.getLeftStickY(), () -> m_controller.getRightStickY());
+    //}
+    //System.out.println("na");
+    //return new TankDrive(
+       // m_drivetrain, () -> -m_controller.getLeftStickY() * 0, () -> m_controller.getRightStickY() * 0);
   }
 }

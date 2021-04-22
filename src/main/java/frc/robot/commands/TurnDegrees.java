@@ -56,10 +56,7 @@ public class TurnDegrees extends CommandBase {
     finalSpeed = m_speed * slowDownVariable;
     finalSpeed = ((finalSpeed < .25) ? .25 : finalSpeed);
     finalSpeed = ((m_degrees > 0) ? finalSpeed*-1 : finalSpeed);
-    
-
-    
-
+  
     m_drive.arcadeDrive(0, finalSpeed);
   }
 
