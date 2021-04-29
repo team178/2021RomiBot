@@ -27,12 +27,14 @@ import frc.robot.commands.AutoDriveStraight;
 import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.PIDAuto;
 import frc.robot.commands.PIDFoward;
 import frc.robot.commands.PIDTurn;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurnDegrees;
 import frc.robot.commands.ZeroHeading;
+import frc.robot.commands.printAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
@@ -208,12 +210,12 @@ public class RobotContainer {
 
     // Setup SmartDashboard options
     m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
-    m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
+    m_chooser.addOption("Auto Routine Distance", new DriveDistance(m_drivetrain, .3, .005));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("AutoPID", new PIDAuto(m_drivetrain));
     m_chooser.setDefaultOption("PIDTurn", new PIDTurn(m_drivetrain, 90, 2));
     m_chooser.addOption("PIDMovement", new PIDFoward(m_drivetrain, 1, 0.0254));
-    m_chooser.addOption("Print Angle", new AutonomousTime(m_drivetrain));
+    m_chooser.addOption("Print Angle", new printAngle(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")
     .add("Max Speed", 1)
