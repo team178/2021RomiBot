@@ -27,6 +27,9 @@ import frc.robot.commands.AutoDriveStraight;
 import frc.robot.commands.AutoStraightener;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.PIDAuto;
+import frc.robot.commands.PIDMovement;
+import frc.robot.commands.PIDTurn;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurnDegrees;
 import frc.robot.commands.ZeroHeading;
@@ -207,6 +210,10 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("test"));
     m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
+    m_chooser.addOption("AutoPID", new PIDAuto(m_drivetrain));
+    m_chooser.addOption("PIDTurn", new PIDTurn(m_drivetrain, 90, 2));
+    m_chooser.addOption("PIDMovement", new PIDMovement(m_drivetrain, 0.3048, 0.0254));
+    m_chooser.addOption("Print Angle", new AutonomousTime(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")
     .add("Max Speed", 1)

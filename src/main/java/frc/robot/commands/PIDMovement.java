@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class PIDTurn extends CommandBase {
+public class PIDMovement extends CommandBase {
 
   private Drivetrain driveTrain;
 
@@ -22,17 +22,17 @@ public class PIDTurn extends CommandBase {
   private double previousError;
   private double derivative = 0;
 
-  public PIDTurn(Drivetrain driveTrain, double target, double tolerance) {
+  public PIDMovement(Drivetrain driveTrain, double target, double tolerance) {
     addRequirements(driveTrain);
     this.driveTrain = driveTrain;
     this.target = target;
     this.tolerance = tolerance;
   }
 
-@Override
+  @Override
   public void initialize() {
-    driveTrain.resetGyro();
-    error = target - driveTrain.getHeading();
+    driveTrain.resetEncoders();
+    error = target - driveTrain.getAverageDistanceMeter();
   }
 
   @Override
@@ -40,20 +40,20 @@ public class PIDTurn extends CommandBase {
     double startTime = Timer.getFPGATimestamp();
     double power = Math.abs((error * kP) + (derivative * kD));
     if (error > 0) {
-      driveTrain.arcadeDrive(0, -power);
+      driveTrain.arcadeDrive(power, 0);
     } else {
-      driveTrain.arcadeDrive(0, power);
+      driveTrain.arcadeDrive(-power, 0);
     }
     previousError = error;
-    error = target - driveTrain.getHeading();
+    error = target - driveTrain.getAverageDistanceMeter();
     derivative = (error - previousError) / (Timer.getFPGATimestamp() - startTime) * kD;
-    System.out.println("Runtime Angle: " + driveTrain.getHeading());
+    System.out.println("Runtime Meter: " + driveTrain.getAverageDistanceMeter());
   }
 
   @Override
   public void end(boolean interrupted) {
     driveTrain.arcadeDrive(0, 0);
-    System.out.println("End Angle: " + driveTrain.getHeading());
+    System.out.println("End Meter: " + driveTrain.getAverageDistanceMeter());
   }
 
   @Override
