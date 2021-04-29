@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class PIDMovement extends CommandBase {
+public class PIDFoward extends CommandBase {
 
   private Drivetrain driveTrain;
 
@@ -22,7 +22,7 @@ public class PIDMovement extends CommandBase {
   private double previousError;
   private double derivative = 0;
 
-  public PIDMovement(Drivetrain driveTrain, double target, double tolerance) {
+  public PIDFoward(Drivetrain driveTrain, double target, double tolerance) {
     addRequirements(driveTrain);
     this.driveTrain = driveTrain;
     this.target = target;
