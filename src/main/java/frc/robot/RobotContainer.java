@@ -207,12 +207,12 @@ public class RobotContainer {
       //.whileHeld(new TankDrive(m_drivetrain, m_controller.leftBumper, 0));
 
     // Setup SmartDashboard options
-    m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand("test"));
+    m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
     m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("AutoPID", new PIDAuto(m_drivetrain));
-    m_chooser.addOption("PIDTurn", new PIDTurn(m_drivetrain, 90, 2));
-    m_chooser.addOption("PIDMovement", new PIDFoward(m_drivetrain, 0.3048, 0.0254));
+    m_chooser.setDefaultOption("PIDTurn", new PIDTurn(m_drivetrain, 90, 2));
+    m_chooser.addOption("PIDMovement", new PIDFoward(m_drivetrain, 1, 0.0254));
     m_chooser.addOption("Print Angle", new AutonomousTime(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")

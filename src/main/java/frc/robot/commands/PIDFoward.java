@@ -13,7 +13,7 @@ public class PIDFoward extends CommandBase {
 
   private Drivetrain driveTrain;
 
-  private double kP = .005;
+  private double kP = .01;
   private double kD = 0; //TODO test and find value
   private double target;
   private double tolerance;

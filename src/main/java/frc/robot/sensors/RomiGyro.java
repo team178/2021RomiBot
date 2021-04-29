@@ -17,9 +17,9 @@ public class RomiGyro implements Gyro {
   private SimDouble m_simAngleY;
   private SimDouble m_simAngleZ;
 
-  private double m_angleXOffset = 4.904;
-  private double m_angleYOffset = -6.290;
-  private double m_angleZOffset = -0.959;
+  private double m_angleXOffset = 5.254;
+  private double m_angleYOffset = -6.237;
+  private double m_angleZOffset = -1.925;
 
   private SimDevice m_gyroSimDevice;
 
