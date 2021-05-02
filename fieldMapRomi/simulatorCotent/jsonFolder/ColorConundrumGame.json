@@ -1,0 +1,10 @@
+{
+    "game": "ColorConundrum",
+    "field-image": "ColorConundrumMap.png",
+    "field-corners": {
+      "top-left": [0, 0],
+      "bottom-right": [1200, 600]
+    },
+    "field-size": [2.286, 1.143],
+    "field-unit": "meter"
+  }
