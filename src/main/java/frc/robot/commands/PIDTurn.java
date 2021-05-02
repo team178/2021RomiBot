@@ -13,8 +13,8 @@ public class PIDTurn extends CommandBase {
 
   private Drivetrain driveTrain;
 
-  private double kP = .007;
-  private double kD = 0.000; //TODO test and find value
+  private double kP = .0075;
+  private double kD = 0.0004; //TODO test and find value
   private double target;
   private double tolerance;
 
@@ -47,7 +47,8 @@ public class PIDTurn extends CommandBase {
     previousError = error;
     error = target - driveTrain.getHeading();
     derivative = (error - previousError) / (Timer.getFPGATimestamp() - startTime) * kD;
-    System.out.println("Runtime Angle: " + driveTrain.getHeading());
+    System.out.println("Runtime Power: " + power);
+    System.out.println("Runtime Error: " + error);
   }
 
   @Override

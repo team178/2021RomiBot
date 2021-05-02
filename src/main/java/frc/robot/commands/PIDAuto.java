@@ -32,7 +32,8 @@ public class PIDAuto extends SequentialCommandGroup {
         new DriveDistance(drivetrain, 0.381, 0.0005),
         new PIDTurn(drivetrain, 90, 2.5),
         new DriveDistance(drivetrain, 0.381, 0.0005),
-        new PIDTurn(drivetrain, 180, 2.5),
+        new PIDTurn(drivetrain, 90, 2.5),
+        new PIDTurn(drivetrain, 90, 2.5),
 
         //Sets Romi For Second Ball
         new DriveDistance(drivetrain, 0.381, 0.0005),
@@ -46,7 +47,8 @@ public class PIDAuto extends SequentialCommandGroup {
 
         //Grabs the Second Ball and Sets up for Last Ball
         new DriveDistance(drivetrain, 0.762, 0.0005),
-        new PIDTurn(drivetrain, 180, 2.5),
+        new PIDTurn(drivetrain, 90, 2.5),
+        new PIDTurn(drivetrain, 90, 2.5),
         new DriveDistance(drivetrain, 0.762, 0.0005),
         new PIDTurn(drivetrain, 90, 2.5),
         
@@ -54,7 +56,8 @@ public class PIDAuto extends SequentialCommandGroup {
         new DriveDistance(drivetrain, 0.5715, 0.0005),
         new PIDTurn(drivetrain, 90, 2.5),
         new DriveDistance(drivetrain, 0.762, 0.0005),
-        new PIDTurn(drivetrain, 180, 2.5),
+        new PIDTurn(drivetrain, 90, 2.5),
+        new PIDTurn(drivetrain, 90, 2.5),
         
         //Gets to the End Circle
         new DriveDistance(drivetrain, 0.381, 0.0005),

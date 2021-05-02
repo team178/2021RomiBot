@@ -213,7 +213,7 @@ public class RobotContainer {
     m_chooser.addOption("Auto Routine Distance", new DriveDistance(m_drivetrain, 1, .00005));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("AutoPID", new PIDAuto(m_drivetrain));
-    m_chooser.setDefaultOption("PIDTurn", new PIDTurn(m_drivetrain, 90, 2.5));
+    m_chooser.setDefaultOption("PIDTurn", new PIDTurn(m_drivetrain, 180, 2.5));
     m_chooser.addOption("Print Angle", new printAngle(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")
