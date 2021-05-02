@@ -13,8 +13,8 @@ public class PIDTurn extends CommandBase {
 
   private Drivetrain driveTrain;
 
-  private double kP = .0075;
-  private double kD = 0.0006; //TODO test and find value
+  private double kP = .007;
+  private double kD = 0.000; //TODO test and find value
   private double target;
   private double tolerance;
 

@@ -11,7 +11,7 @@ public class DriveDistance extends CommandBase {
   private final Drivetrain drive;
   private final double distance;
   
-  private double kP = 100;  
+  private double kP = 3;  
   private double kD = 0; //prob not needed 
   private double tolerance;
 
@@ -19,7 +19,6 @@ public class DriveDistance extends CommandBase {
   private double motorCorrection; 
 
   private double power;
-  private double previousPower; 
 
   /**
    * Creates a new DriveDistance. This command will drive your your robot for a desired distance at
@@ -49,13 +48,12 @@ public class DriveDistance extends CommandBase {
     error = drive.getRightDistanceMeter() - drive.getLeftDistanceMeter();
     if(Math.abs(error) > tolerance){
       motorCorrection = error * kP;
-      System.out.println("if");
     }
     else{
       motorCorrection = 0;
-      System.out.println("else");
     }
-    //drive.tankDrivePower(power + motorCorrection, motorCorrection - power);
+    
+    drive.tankDrivePower(power + motorCorrection, motorCorrection - power);
 
 
   }
@@ -70,6 +68,6 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     // Compare distance travelled from start to desired distance
-    return false;
+    return drive.getAverageDistanceMeter() >= distance;
   }
 }

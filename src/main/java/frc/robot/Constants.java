@@ -24,7 +24,7 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 6.73;
     public static final double kaVoltSecondsSquaredPerMeter = 0.0136;
 
-    public static final double kPDriveVel = 0.021;
+    public static final double kPDriveVel = 0.005;
 
     public static final double kTrackwidthMeters = 0.142072613;
     public static final DifferentialDriveKinematics kDriveKinematics =

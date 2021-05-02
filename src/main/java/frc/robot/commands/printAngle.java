@@ -14,9 +14,10 @@ public class printAngle extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-      System.out.println("Left Encoder: " + driveTrain.getLeftDistanceMeter());
-      System.out.println("Right Encoder: " + driveTrain.getRightDistanceMeter());
-      System.out.println("Error: " + (driveTrain.getRightDistanceMeter() - driveTrain.getLeftDistanceMeter()));
+      //System.out.println("Left Encoder: " + driveTrain.getLeftDistanceMeter());
+      //System.out.println("Right Encoder: " + driveTrain.getRightDistanceMeter());
+      //System.out.println("Error: " + (driveTrain.getRightDistanceMeter() - driveTrain.getLeftDistanceMeter()));
+      System.out.println("Angle: " + driveTrain.getHeading());
     }
   
     // Called once the command ends or is interrupted.
