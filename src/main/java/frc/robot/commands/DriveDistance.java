@@ -39,7 +39,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     drive.resetEncoders();
-    power = .3;
+    power = (distance > 0 ? .3 : -.3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,6 +68,6 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     // Compare distance travelled from start to desired distance
-    return drive.getAverageDistanceMeter() >= distance;
+    return Math.abs(drive.getAverageDistanceMeter()) >= Math.abs(distance);
   }
 }

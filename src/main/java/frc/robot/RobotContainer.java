@@ -210,10 +210,10 @@ public class RobotContainer {
 
     // Setup SmartDashboard options
     m_chooser.addOption("Ramsete Trajectory", generateRamseteCommand("test"));
-    m_chooser.addOption("Auto Routine Distance", new DriveDistance(m_drivetrain, 1, .00005));
+    m_chooser.addOption("Auto Routine Distance", new DriveDistance(m_drivetrain, -1, .00005));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
-    m_chooser.addOption("AutoPID", new PIDAuto(m_drivetrain));
-    m_chooser.setDefaultOption("PIDTurn", new PIDTurn(m_drivetrain, 180, 2.5));
+    m_chooser.setDefaultOption("AutoPID", new PIDAuto(m_drivetrain));
+    m_chooser.addOption("PIDTurn", new PIDTurn(m_drivetrain, 90, 3));
     m_chooser.addOption("Print Angle", new printAngle(m_drivetrain));
 
     Shuffleboard.getTab("SmartDashboard")

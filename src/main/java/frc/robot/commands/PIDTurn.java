@@ -13,7 +13,7 @@ public class PIDTurn extends CommandBase {
 
   private Drivetrain driveTrain;
 
-  private double kP = .0075;
+  private double kP = .00725;
   private double kD = 0.0004; //TODO test and find value
   private double target;
   private double tolerance;
@@ -37,18 +37,18 @@ public class PIDTurn extends CommandBase {
 
   @Override
   public void execute() {
-    double startTime = Timer.getFPGATimestamp();
-    double power = Math.abs((error * kP) + (derivative * kD));
-    if (error > 0) {
-      driveTrain.arcadeDrive(0, -power);
-    } else {
-      driveTrain.arcadeDrive(0, power);
-    }
-    previousError = error;
-    error = target - driveTrain.getHeading();
-    derivative = (error - previousError) / (Timer.getFPGATimestamp() - startTime) * kD;
-    System.out.println("Runtime Power: " + power);
-    System.out.println("Runtime Error: " + error);
+      double startTime = Timer.getFPGATimestamp();
+      double power = Math.abs((error * kP) + (derivative * kD));
+      if (error > 0) {
+        driveTrain.arcadeDrive(0, -power);
+      } else {
+        driveTrain.arcadeDrive(0, power);
+      }
+      previousError = error;
+      error = target - driveTrain.getHeading();
+      derivative = (error - previousError) / (Timer.getFPGATimestamp() - startTime) * kD;
+      System.out.println("Runtime Power: " + power);
+      System.out.println("Runtime Error: " + error);
   }
 
   @Override
